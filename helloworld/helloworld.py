@@ -3,7 +3,7 @@
 import re
 # import requests
 
-from auth import *
+# from auth import *
 
 from genshi.builder import tag
 from trac.core import *
