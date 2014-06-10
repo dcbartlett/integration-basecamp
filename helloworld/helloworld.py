@@ -1,7 +1,7 @@
 # Helloworld plugin
 
 import re
-import requestshell	
+import requests
 
 from auth import *
 
