@@ -1,9 +1,9 @@
 # Helloworld plugin
 
 import re
+import requestshell	
 
 from genshi.builder import tag
-
 from trac.core import *
 from trac.web import IRequestHandler
 from trac.web.chrome import INavigationContributor, ITemplateProvider
@@ -24,7 +24,12 @@ class HelloWorldPlugin(Component):
         return re.match(r'/helloworld(?:_trac)?(?:/.*)?$', req.path_info)
 
     def process_request(self, req):
-        data = {}        
+
+    	uri = 'https://basecamp.com/1759332/api/v1'
+    	r = requests.get( uri + '/todolists.json', auth=(BC_USERNAME, BC_PASSWORD))
+        data = {
+        	json: r.json()
+        }
         # This tuple is for Genshi (template_name, data, content_type)
         # Without data the trac layout will not appear.
         return 'helloworld.html', data, None
