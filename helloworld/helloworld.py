@@ -23,13 +23,10 @@ class HelloWorldPlugin(Component):
 		return req.path_info == '/helloworld'
 
 	def process_request(self, req):
-		return 'helloworld.cs', None
+		return 'helloworld.html', None
 
 	# ITemplateProvider methods
 	def get_templates_dirs(self):
-		"""Return a list of directories containing the provided ClearSilver
-		templates.
-		"""
 
 		from pkg_resources import resource_filename
 		return [resource_filename(__name__, 'templates')]
