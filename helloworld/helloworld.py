@@ -1,29 +1,35 @@
 # Helloworld plugin
 
 from trac.core import *
-from trac.web.chrome import INavigationContributor
+from trac.web.chrome import INavigationContributor, ITemplateProvider
 from trac.web.main import IRequestHandler
 from trac.util import escape, Markup
 
 class HelloWorldPlugin(Component):
-    implements(INavigationContributor, IRequestHandler)
+	implements(INavigationContributor, IRequestHandler, ITemplateProvider)
 
-    # INavigationContributor methods
-    def get_active_navigation_item(self, req):
-        return 'helloworld'
+	# INavigationContributor methods
+	def get_active_navigation_item(self, req):
+		return 'helloworld'
 
-    def get_navigation_items(self, req):
-        yield 'mainnav', 'helloworld', Markup('<a href="%s">Hello</a>' % (
-                self.env.href.helloworld() ) )
+	def get_navigation_items(self, req):
+		yield 'mainnav', 'helloworld', Markup('<a href="%s">Hello</a>' % (
+			self.env.href.helloworld()
+			)
+		)
 
-    # IRequestHandler methods
-    def match_request(self, req):
-        return req.path_info == '/helloworld'
+	# IRequestHandler methods
+	def match_request(self, req):
+		return req.path_info == '/helloworld'
 
-    def process_request(self, req):
-        req.send_response(200)
-        abuffer = 'Hello world!'
-        req.send_header('Content-Type', 'text/plain')
-        req.send_header('Content-length', str(len(abuffer)))
-        req.end_headers()
-        req.write(abuffer)
+	def process_request(self, req):
+		return 'helloworld.cs', None
+
+	# ITemplateProvider methods
+	def get_templates_dirs(self):
+		"""Return a list of directories containing the provided ClearSilver
+		templates.
+		"""
+
+		from pkg_resources import resource_filename
+		return [resource_filename(__name__, 'templates')]

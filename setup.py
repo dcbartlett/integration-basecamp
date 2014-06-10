@@ -8,4 +8,5 @@ setup(
     version=VERSION,
     packages=['helloworld'],
     entry_points={'trac.plugins': '%s = helloworld' % PACKAGE},
+    package_data={'helloworld': ['templates/*.cs']},
 )
