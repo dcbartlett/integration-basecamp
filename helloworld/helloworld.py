@@ -3,7 +3,7 @@
 import re
 import requestshell	
 
-from bc_auth import *
+from auth import *
 
 from genshi.builder import tag
 from trac.core import *
@@ -28,7 +28,7 @@ class HelloWorldPlugin(Component):
     def process_request(self, req):
 
     	uri = 'https://basecamp.com/1759332/api/v1'
-    	r = requests.get( uri + '/todolists.json', auth=(BC_USERNAME, BC_PASSWORD))
+    	r = requests.get( uri + '/todolists.json', auth=(bcuser, bcpass))
         data = {
         	json: r.json()
         }
