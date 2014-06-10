@@ -1,11 +1,11 @@
-from setuptools import find_packages, setup
+from setuptools import setup
+
+PACKAGE = 'TracHelloworld'
+VERSION = '0.1'
 
 setup(
-    name='TracHelloWorld', version='1.0',
-    packages=find_packages(exclude=['*.tests*']),
-    entry_points = {
-        'trac.plugins': [
-            'helloworld = myplugs.helloworld',
-        ],
-    },
+	name=PACKAGE,
+    version=VERSION,
+    packages=['helloworld'],
+    entry_points={'trac.plugins': '%s = helloworld' % PACKAGE},
 )
