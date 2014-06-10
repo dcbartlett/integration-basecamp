@@ -1,9 +1,9 @@
 # Helloworld plugin
 
 import re
-# import requests
+import requests
 
-# from auth import *
+from auth import *
 
 from genshi.builder import tag
 from trac.core import *
@@ -27,10 +27,10 @@ class HelloWorldPlugin(Component):
 
     def process_request(self, req):
 
-        # uri = 'https://basecamp.com/1759332/api/v1'
-        # r = requests.get(uri + '/todolists.json', auth=(bcuser, bcpass))
+        uri = 'https://basecamp.com/1759332/api/v1'
+        r = requests.get(uri + '/todolists.json', auth=(bcuser, bcpass))
         data = {
-            # json: r.json()
+            json: r.json()
         }
         # This tuple is for Genshi (template_name, data, content_type)
         # Without data the trac layout will not appear.
