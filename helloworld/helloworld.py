@@ -3,6 +3,8 @@
 import re
 import requestshell	
 
+from bc_auth import *
+
 from genshi.builder import tag
 from trac.core import *
 from trac.web import IRequestHandler
