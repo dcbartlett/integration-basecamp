@@ -1,32 +1,39 @@
 # Helloworld plugin
 
+import re
+
+from genshi.builder import tag
+
 from trac.core import *
+from trac.web import IRequestHandler
 from trac.web.chrome import INavigationContributor, ITemplateProvider
-from trac.web.main import IRequestHandler
-from trac.util import escape, Markup
 
 class HelloWorldPlugin(Component):
-	implements(INavigationContributor, IRequestHandler, ITemplateProvider)
+    implements(INavigationContributor, IRequestHandler, ITemplateProvider)
 
-	# INavigationContributor methods
-	def get_active_navigation_item(self, req):
-		return 'helloworld'
+    # INavigationContributor methods
+    def get_active_navigation_item(self, req):
+        return 'helloworld'
 
-	def get_navigation_items(self, req):
-		yield 'mainnav', 'helloworld', Markup('<a href="%s">Hello</a>' % (
-			self.env.href.helloworld()
-			)
-		)
+    def get_navigation_items(self, req):
+        yield ('mainnav', 'helloworld',
+               tag.a('Hello World', href=req.href.helloworld()))
 
-	# IRequestHandler methods
-	def match_request(self, req):
-		return req.path_info == '/helloworld'
+    # IRequestHandler methods
+    def match_request(self, req):
+        return re.match(r'/helloworld(?:_trac)?(?:/.*)?$', req.path_info)
 
-	def process_request(self, req):
-		return 'helloworld.html', None
+    def process_request(self, req):
+        data = {}        
+        # This tuple is for Genshi (template_name, data, content_type)
+        # Without data the trac layout will not appear.
+        return 'helloworld.html', data, None
 
-	# ITemplateProvider methods
-	def get_templates_dirs(self):
+    # ITemplateProvider methods
+    # Used to add the plugin's templates and htdocs 
+    def get_templates_dirs(self):
+        from pkg_resources import resource_filename
+        return [resource_filename(__name__, 'templates')]
 
-		from pkg_resources import resource_filename
-		return [resource_filename(__name__, 'templates')]
+    def get_htdocs_dirs(self):
+        return []
