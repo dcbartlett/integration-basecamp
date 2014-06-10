@@ -46,7 +46,7 @@ class HelloWorldPlugin(Component):
         uri = 'https://basecamp.com/1759332/api/v1'
         r = requests.get(uri + '/todolists.json', auth=(bcuser, bcpass))
         data = {
-            'json': r.json()
+            'json': json.dump(r.json())
         }
         # This tuple is for Genshi (template_name, data, content_type)
         # Without data the trac layout will not appear.
