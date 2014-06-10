@@ -46,6 +46,8 @@ class HelloWorldPlugin(Component):
 
         uri = 'https://basecamp.com/1759332/api/v1'
         r = requests.get(uri + '/todolists.json', auth=(bcuser, bcpass))
+        from StringIO import StringIO
+        output = StringIO()
         json.dump(r.json(), output)
         data = {
             'json': output.getvalue()
