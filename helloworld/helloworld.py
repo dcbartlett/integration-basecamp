@@ -7,11 +7,27 @@ from auth import *
 
 from genshi.builder import tag
 from trac.core import *
+from trac.perm import IPermissionPolicy, IPermissionRequestor
 from trac.web import IRequestHandler
 from trac.web.chrome import INavigationContributor, ITemplateProvider
 
 class HelloWorldPlugin(Component):
-    implements(INavigationContributor, IRequestHandler, ITemplateProvider)
+    implements(INavigationContributor, IRequestHandler, ITemplateProvider, IPermissionPolicy)
+
+    # IPermissionRequestor methods  
+    def get_permission_actions(self):
+        yield 'BASECAMP_VIEW'
+
+    # IPermissionPolicy methods
+    def check_permission(self, action, username, resource, perm):
+        if resource and resource.id is not None:
+            for keywords, summary in self.env.db_query(
+                    "SELECT keywords, summary FROM ticket WHERE id=%s",
+                    (resource.id,)):
+                fields = ''.join(f for f in (keywords, summary) if f).lower()
+                if 'security' in fields or 'vulnerability' in fields:
+                    if 'VULNERABILITY_VIEW' not in perm:
+                        return False
 
     # INavigationContributor methods
     def get_active_navigation_item(self, req):

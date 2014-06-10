@@ -6,13 +6,18 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="layout.html" />
   <head>
+    <script>
+      $().ready(function() {
+        var json = ${json};
+        console.log(json);
+      });
+    </script>
   </head>
   <body>
     <div id="ctxtnav" class="nav"></div>
 
     <div id="content" class="helloworld">
       <div id="bc_todos">
-        ${json}
       </div>
     </div>
   </body>
